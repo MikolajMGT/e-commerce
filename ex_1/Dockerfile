@@ -7,7 +7,8 @@ ENV SCALA_VERSION=2.12.13 \
     REACT_PORT=3000 \
     PLAY_PORT=9000
 
-RUN apk add --update npm && \
+RUN addgroup -S appgroup && adduser -S mikolaj -G appgroup && \
+    apk add --update npm && \
     apk add openjdk8=${JDK_VERSION} && \
     apk add --no-cache --virtual=.build-dependencies wget ca-certificates && \
     apk add --no-cache bash curl jq && \
@@ -24,6 +25,7 @@ RUN apk add --update npm && \
     mkdir -p "/usr/local/sbt" && \
     wget -qO - --no-check-certificate "https://github.com/sbt/sbt/releases/download/v${SBT_VERSION}/sbt-${SBT_VERSION}.tgz" | tar xz -C /usr/local/sbt --strip-components=1 && sbt sbtVersion
 
+USER mikolaj
 WORKDIR /src
 VOLUME /src
 EXPOSE ${REACT_PORT} ${PLAY_PORT}
