@@ -1,0 +1,84 @@
+
+# Routes
+# This file defines all application routes (Higher priority routes first)
+# ~~~~
+
+# An example controller showing a sample home page
+GET           /                                controllers.view.HomeController.index
+# An example controller showing how to use dependency injection
+GET           /count                           controllers.api.example.CountController.count
+# An example controller showing how to write asynchronous code
+GET           /message                         controllers.api.example.AsyncController.message
+
+# Map static resources from the /public folder to the /assets URL path
+GET           /assets/*file                    controllers.Assets.versioned(path="/public", file: Asset)
+
+# Category CRUD
+GET           /category/get/:id                controllers.api.CategoryController.getCategory(id)
+GET           /category/list/:name             controllers.api.CategoryController.listCategories(name)
+POST          /category/create                 controllers.api.CategoryController.createCategory
+PUT           /category/update                 controllers.api.CategoryController.updateCategory
+DELETE        /category/delete/:id             controllers.api.CategoryController.deleteCategory(id)
+
+# Credit Card CRUD
+GET           /credit-card/get/:id             controllers.api.CreditCardController.getCreditCard(id)
+GET           /credit-card/list/:name          controllers.api.CreditCardController.listCreditCards(name)
+POST          /credit-card/create              controllers.api.CreditCardController.createCreditCard
+PUT           /credit-card/update              controllers.api.CreditCardController.updateCreditCard
+DELETE        /credit-card/delete/:id          controllers.api.CreditCardController.deleteCreditCard(id)
+
+# Order CRUD
+GET           /order/get/:id                   controllers.api.OrderController.getOrder(id)
+GET           /order/list/:name                controllers.api.OrderController.listOrders(name)
+POST          /order/create                    controllers.api.OrderController.createOrder
+PUT           /order/update                    controllers.api.OrderController.updateOrder
+DELETE        /order/delete/:id                controllers.api.OrderController.deleteOrder(id)
+
+# Payment CRUD
+GET           /payment/get/:id                 controllers.api.PaymentController.getPayment(id)
+GET           /payment/list/:name              controllers.api.PaymentController.listPayments(name)
+POST          /payment/create                  controllers.api.PaymentController.createPayment
+PUT           /payment/update                  controllers.api.PaymentController.updatePayment
+DELETE        /payment/delete/:id              controllers.api.PaymentController.deletePayment(id)
+
+# Product CRUD
+GET           /product/get/:id                 controllers.api.ProductController.getProduct(id)
+GET           /product/list/:name              controllers.api.ProductController.listProducts(name)
+POST          /product/create                  controllers.api.ProductController.createProduct
+PUT           /product/update                  controllers.api.ProductController.updateProduct
+DELETE        /product/delete/:id              controllers.api.ProductController.deleteProduct(id)
+
+# ProductStock CRUD
+GET           /product-stock/get/:id           controllers.api.ProductStockController.getProductStock(id)
+GET           /product-stock/list/:name        controllers.api.ProductStockController.listProductStocks(name)
+POST          /product-stock/create            controllers.api.ProductStockController.createProductStock
+PUT           /product-stock/update            controllers.api.ProductStockController.updateProductStock
+DELETE        /product-stock/delete/:id        controllers.api.ProductStockController.deleteProductStock(id)
+
+# Subcategory CRUD
+GET           /subcategory/get/:id             controllers.api.SubcategoryController.getSubcategory(id)
+GET           /subcategory/list/:name          controllers.api.SubcategoryController.listSubcategories(name)
+POST          /subcategory/create              controllers.api.SubcategoryController.createSubcategory
+PUT           /subcategory/update              controllers.api.SubcategoryController.updateSubcategory
+DELETE        /subcategory/delete/:id          controllers.api.SubcategoryController.deleteSubcategory(id)
+
+# UserAddress CRUD
+GET           /user-address/get/:id            controllers.api.UserAddressController.getUserAddress(id)
+GET           /user-address/list/:name         controllers.api.UserAddressController.listUserAddresses(name)
+POST          /user-address/create             controllers.api.UserAddressController.createUserAddress()
+PUT           /user-address/update             controllers.api.UserAddressController.updateUserAddress
+DELETE        /user-address/delete/:id         controllers.api.UserAddressController.deleteUserAddress(id)
+
+# User CRUD
+GET           /user/get/:id                    controllers.api.UserController.getUser(id)
+GET           /user/list/:name                 controllers.api.UserController.listUsers(name)
+POST          /user/create                     controllers.api.UserController.createUser
+PUT           /user/update                     controllers.api.UserController.updateUser
+DELETE        /user/delete/:id                 controllers.api.UserController.deleteUser(id)
+
+# Voucher CRUD
+GET           /voucher/get/:id                 controllers.api.VoucherController.getVoucher(id)
+GET           /voucher/list/:name              controllers.api.VoucherController.listVouchers(name)
+POST          /voucher/create                  controllers.api.VoucherController.createVoucher
+PUT           /voucher/update                  controllers.api.VoucherController.updateVoucher
+DELETE        /voucher/delete/:id              controllers.api.VoucherController.deleteVoucher(id)
