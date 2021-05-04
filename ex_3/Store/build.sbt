@@ -7,7 +7,6 @@ version := "1.0"
 lazy val `store` = (project in file(".")).enablePlugins(PlayScala)
       
 resolvers += "Akka Snapshot Repository" at "https://repo.akka.io/snapshots/"
-resolvers += "scalaz-bintray" at "https://dl.bintray.com/scalaz/releases"
 
 scalaVersion := "2.12.13"
 

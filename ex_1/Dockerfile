@@ -2,7 +2,7 @@ FROM alpine:3.13
 
 ENV SCALA_VERSION=2.12.13 \
     SCALA_HOME=/usr/share/scala \
-    SBT_VERSION=1.4.8 \
+    SBT_VERSION=1.5.1 \
     JDK_VERSION=8.275.01-r0 \
     REACT_PORT=3000 \
     PLAY_PORT=9000
