@@ -5,9 +5,12 @@ import {Button} from '@material-ui/core';
 import {inject, observer} from 'mobx-react';
 import {RootStore} from '../../stores/RootStore';
 import {v4 as uuidv4} from 'uuid';
+import {useHistory} from 'react-router';
 
 export const Cart: FC<{store?: RootStore}> = inject("store")(observer(({store}) => {
+	const userStore = store?.userStore
 	const cartStore = store?.cartStore
+	const history = useHistory()
 
 	const prepareProducts = () => {
 		return cartStore?.listProducts().map(product => {
@@ -26,6 +29,15 @@ export const Cart: FC<{store?: RootStore}> = inject("store")(observer(({store}) 
 		return total
 	}
 
+	const onCompleteClicked = () => {
+		if (!userStore?.user) {
+			history.push('/order')
+			history.push('/login')
+		} else {
+			history.push('/order')
+		}
+	}
+
 	return (
 		<CartStyled>
 			<div className='mt-5 entries'>
@@ -38,7 +50,9 @@ export const Cart: FC<{store?: RootStore}> = inject("store")(observer(({store}) 
 				{prepareProducts()}
 				<div className='p-4'>
 					<h4 className='summary' style={{marginLeft: '51vw', display: 'inline'}}>Total: {calculateTotal().toFixed(2)} PLN</h4>
-					<Button style={{height: '40px', borderRadius: '20px'}} variant="contained" color='secondary'>Complete Purchase</Button>
+					<Button style={{height: '40px', borderRadius: '20px'}} variant="contained" color='secondary' onClick={() => onCompleteClicked()}>
+						Complete Purchase
+					</Button>
 				</div>
 			</div>
 		</CartStyled>

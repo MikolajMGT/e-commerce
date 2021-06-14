@@ -42,6 +42,15 @@ class OrderController @Inject()(val orderRepo: OrderRepository, cc: ControllerCo
     }
   }
 
+  def listOrdersByAddressId(addressId: Long): Action[AnyContent] = Action.async {
+    logger.info(s"listOrdersByAddressId($addressId)")
+
+    val orders = orderRepo.listByAddressId(addressId)
+    orders.map { orders =>
+      Ok(Json.toJson(orders))
+    }
+  }
+
   def listOrdersByPaymentId(paymentId: Long): Action[AnyContent] = Action.async {
     logger.info(s"listOrdersByPaymentId($paymentId)")
 
@@ -66,7 +75,7 @@ class OrderController @Inject()(val orderRepo: OrderRepository, cc: ControllerCo
 
     request.body.validate[Order].map {
       order =>
-        orderRepo.create(order.userId, order.paymentId, order.voucherId).map { res =>
+        orderRepo.create(order.userId, order.addressId, order.paymentId, order.voucherId).map { res =>
           logger.debug(s"order created: $res")
           Ok(Json.toJson(res))
         }

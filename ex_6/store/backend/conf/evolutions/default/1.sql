@@ -53,6 +53,7 @@ CREATE TABLE "payment"
 CREATE TABLE "voucher"
 (
     "id"         INTEGER   NOT NULL PRIMARY KEY AUTOINCREMENT,
+    "code"       VARCHAR   NOT NULL,
     "amount"     INTEGER   NOT NULL,
     "usages"     INTEGER   NOT NULL,
     "created_at" TIMESTAMP NOT NULL,
@@ -63,11 +64,13 @@ CREATE TABLE "order_"
 (
     "id"         INTEGER   NOT NULL PRIMARY KEY AUTOINCREMENT,
     "user_id"    INTEGER   NOT NULL,
+    "address_id" INTEGER   NOT NULL,
     "payment_id" INTEGER   NOT NULL,
     "voucher_id" INTEGER   NOT NULL,
     "created_at" TIMESTAMP NOT NULL,
     "updated_at" TIMESTAMP NOT NULL,
     FOREIGN KEY (user_id) REFERENCES user_ (id),
+    FOREIGN KEY (address_id) REFERENCES user_address (id),
     FOREIGN KEY (payment_id) REFERENCES payment (id),
     FOREIGN KEY (voucher_id) REFERENCES voucher (id)
 );

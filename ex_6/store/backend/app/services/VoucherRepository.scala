@@ -22,6 +22,8 @@ class VoucherRepository @Inject()(dbConfigProvider: DatabaseConfigProvider)(impl
 
     def id: Rep[Long] = column[Long]("id", O.PrimaryKey, O.AutoInc)
 
+    def code: Rep[String] = column[String]("code")
+
     def amount: Rep[Int] = column[Int]("amount")
 
     def usages: Rep[Int] = column[Int]("usages")
@@ -30,20 +32,24 @@ class VoucherRepository @Inject()(dbConfigProvider: DatabaseConfigProvider)(impl
 
     def updatedAt: Rep[Timestamp] = column[Timestamp]("updated_at", O.Default(currentWhenInserting))
 
-    def * = (id, amount, usages, createdAt, updatedAt) <> ((Voucher.apply _).tupled, Voucher.unapply)
+    def * = (id, code, amount, usages, createdAt, updatedAt) <> ((Voucher.apply _).tupled, Voucher.unapply)
   }
 
   val voucher = TableQuery[VoucherTable]
 
-  def create(amount: Int, usages: Int, createdAt: Timestamp = Timestamp.from(Instant.now()), updatedAt: Timestamp = Timestamp.from(Instant.now())): Future[Voucher] = db.run {
-    (voucher.map(v => (v.amount, v.usages, v.createdAt, v.updatedAt))
+  def create(code: String, amount: Int, usages: Int, createdAt: Timestamp = Timestamp.from(Instant.now()), updatedAt: Timestamp = Timestamp.from(Instant.now())): Future[Voucher] = db.run {
+    (voucher.map(v => (v.code, v.amount, v.usages, v.createdAt, v.updatedAt))
       returning voucher.map(_.id)
-      into { case ((amount, usages, createdAt, updatedAt), id) => Voucher(id, amount, usages, createdAt, updatedAt) }
-      ) += (amount, usages, createdAt, updatedAt)
+      into { case ((code, amount, usages, createdAt, updatedAt), id) => Voucher(id, code, amount, usages, createdAt, updatedAt) }
+      ) += (code, amount, usages, createdAt, updatedAt)
   }
 
   def getByIdOption(id: Long): Future[Option[Voucher]] = db.run {
     voucher.filter(_.id === id).result.headOption
+  }
+
+  def getByCodeOption(code: String): Future[Option[Voucher]] = db.run {
+    voucher.filter(_.code === code).result.headOption
   }
 
   def list(): Future[Seq[Voucher]] = db.run {

@@ -46,4 +46,9 @@ export class CartStore implements ICartStore {
 	listProducts = () => {
 		return this.products
 	}
+
+	clearProducts = () => {
+		this.products = []
+		return this.products
+	}
 }

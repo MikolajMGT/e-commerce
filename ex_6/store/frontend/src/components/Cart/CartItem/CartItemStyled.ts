@@ -19,11 +19,11 @@ export const CartItemStyled = styled.div`
 	}
 `;
 
-export const ImageStyled = styled.div<{image: string}>`
+export const ImageStyled = styled.div<{image: string, width: string, height: string}>`
 	margin-right: 5vw;
 	background-image: url(${props => props.image});
 	background-size: cover;
-	width: 24vh;
-	height: 8vw;
+	width: ${props => props.width};
+	height: ${props => props.height};
 	border-radius: 4px;
 `

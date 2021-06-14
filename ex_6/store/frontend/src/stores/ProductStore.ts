@@ -45,8 +45,6 @@ export class ProductStore implements IProductStore {
 		if (this.products.length === 0) {
 			const stockList = await listStocks()
 			const productList = await listProducts()
-			const categoryList = await listCategories()
-			const subcategoryList = await listSubcategories()
 			console.log(productList)
 			this.products = productList.data.map((product: ProductDb) => {
 				const newProduct: ProductProps = {

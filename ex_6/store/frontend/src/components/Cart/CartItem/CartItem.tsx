@@ -21,7 +21,7 @@ export const CartItem: FC<{store?: RootStore} & CartItemProps> = inject("store")
 	return (
 		<CartItemStyled>
 			<div className='entries-row mb-4'>
-				<ImageStyled image={image}/>
+				<ImageStyled height={'16vh'} width={'24vh'} image={image}/>
 				<h4 className='section'>{name}</h4>
 				<h4 className='section'>{price} PLN</h4>
 				<h4 className='section'>{quantity}</h4>

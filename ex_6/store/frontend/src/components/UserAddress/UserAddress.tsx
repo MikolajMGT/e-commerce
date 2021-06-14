@@ -1,33 +1,21 @@
 import React, {FC} from 'react';
-import {
-	Button,
-	Dialog,
-	DialogContent,
-	DialogContentText,
-	DialogTitle,
-	Input,
-} from '@material-ui/core';
-import {useHistory} from 'react-router';
+import CancelIcon from '@material-ui/icons/Cancel';
+import {Button, DialogContentText, Input} from '@material-ui/core';
 import {Field, Form, Formik, FormikHelpers} from 'formik';
-import {UserAddressStyled} from './UserAddressStyled';
+import Box from "@material-ui/core/Box";
+import { Container } from '@material-ui/core';
+import { UserAddressModalStyled } from './UserAddressStyled';
+import { Row } from 'react-bootstrap';
 import {addUserAddress} from '../../services/userAddress';
+import {RootStore} from '../../stores/RootStore';
+import {inject, observer} from 'mobx-react';
 
-export interface UserAddressProps {
-	//
+interface UserAddressModalProps {
+	close: any
 }
-
-export const UserAddress: FC<UserAddressProps> = () => {
-	const history = useHistory();
-	const [open, setOpen] = React.useState(false);
-
-	const handleClickOpen = () => {
-		setOpen(true);
-	};
-
-	const handleClose = () => {
-		setOpen(false);
-	};
-
+export const UserAddressModal: FC<{ store?: RootStore } & UserAddressModalProps> = inject('store')(observer(({store, close}) => {
+	const userStore = store?.userStore
+	const addressStore = store?.addressStore
 
 	const onSubmit = async (data: {
 		firstname: string,
@@ -37,18 +25,24 @@ export const UserAddress: FC<UserAddressProps> = () => {
 		city: string,
 		country: string,
 	}, actions: FormikHelpers<any>) => {
+
 		actions.resetForm();
-		const res = await addUserAddress(data.firstname, data.lastname, data.address, data.zipcode, data.city, data.country);
-		history.push('/submit')
+		if (userStore?.user) {
+			try {
+				const res = await addUserAddress(userStore.user.id, data.firstname, data.lastname, data.address, data.zipcode, data.city, data.country);
+				addressStore?.addAddress(res.data)
+				close()
+			}catch(error){
+				console.log(error)
+			}
+		}
 	};
 
 	return (
-		<UserAddressStyled>
-			<Button onClick={handleClickOpen} className="signUpBtn" color="secondary"> Don't have an account? Sign
-				Up!</Button>
-			<Dialog open={open} onClose={handleClose} aria-labelledby="form-dialog-title">
-				<DialogTitle id="form-dialog-title">Register</DialogTitle>
-				<DialogContent>
+		<UserAddressModalStyled>
+			<Box  className="cancel"><CancelIcon style={{color: "#d02015"}} onClick={() => close()}/></Box>
+			<Container className="content" >
+				<Row style={{alignItems: "center", display:"flex"}}>
 					<Formik initialValues={{
 						firstname: '',
 						lastname: '',
@@ -66,6 +60,7 @@ export const UserAddress: FC<UserAddressProps> = () => {
 								       required
 								       error={errors.firstname && touched.firstname ? errors.firstname : null}/>
 
+								<DialogContentText style={{color: "#FCFDFE"}}>Lastname:</DialogContentText>
 								<Field as={Input} style={{backgroundColor: "#52585D", color: "#FCFDFE"}} name='lastname'
 								       required
 								       error={errors.lastname && touched.lastname ? errors.lastname : null}/>
@@ -91,15 +86,14 @@ export const UserAddress: FC<UserAddressProps> = () => {
 								       error={errors.country && touched.country ? errors.country : null}/>
 
 								<div className="row acceptBtn">
-									<Field as={Button} onClick={handleClose} type='submit' disabled={isSubmitting}
-									       color="primary">Sign up</Field>
+									<Field as={Button} type='submit' disabled={isSubmitting}
+									       color="primary">Save Address</Field>
 								</div>
 							</Form>
 						)}
 					</Formik>
-				</DialogContent>
-			</Dialog>
-		</UserAddressStyled>
+				</Row>
+			</Container>
+		</UserAddressModalStyled>
 	);
-}
-
+}));

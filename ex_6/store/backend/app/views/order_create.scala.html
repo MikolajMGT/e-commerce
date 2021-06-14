@@ -1,5 +1,5 @@
 @import controllers.view.CreateOrderForm
-@(order: Form[CreateOrderForm], users: Seq[User], payments: Seq[Payment], vouchers: Seq[Voucher])(implicit request: MessagesRequestHeader, flash: Flash)
+@(order: Form[CreateOrderForm], users: Seq[User], addresses: Seq[UserAddress], payments: Seq[Payment], vouchers: Seq[Voucher])(implicit request: MessagesRequestHeader, flash: Flash)
 
 @import helper._
 
@@ -12,6 +12,13 @@
     <select name="userId" id="user">
     @for(entry <- users) {
         <option value="@entry.id">@entry.email</option>
+    }
+    </select>
+
+    <label for="address"></label>
+    <select name="address" id="address">
+    @for(entry <- addresses) {
+        <option value="@entry.id">@entry.address</option>
     }
     </select>
 

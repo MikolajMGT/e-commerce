@@ -29,7 +29,7 @@ class VoucherController @Inject()(voucherRepo: VoucherRepository, cc: MessagesCo
         )
       },
       voucher => {
-        voucherRepo.create(voucher.amount, voucher.usages).map { _ =>
+        voucherRepo.create(voucher.code, voucher.amount, voucher.usages).map { _ =>
           Redirect("/form/voucher/list")
         }
       }
@@ -39,7 +39,7 @@ class VoucherController @Inject()(voucherRepo: VoucherRepository, cc: MessagesCo
   def updateVoucher(id: Long): Action[AnyContent] = Action.async { implicit request: MessagesRequest[AnyContent] =>
     val voucher = voucherRepo.getByIdOption(id)
     voucher.map(voucher => {
-      val prodForm = updateVoucherForm.fill(UpdateVoucherForm(voucher.get.id, voucher.get.amount, voucher.get.usages))
+      val prodForm = updateVoucherForm.fill(UpdateVoucherForm(voucher.get.id, voucher.get.code, voucher.get.amount, voucher.get.usages))
       Ok(views.html.voucher_update(prodForm))
     })
   }
@@ -52,7 +52,7 @@ class VoucherController @Inject()(voucherRepo: VoucherRepository, cc: MessagesCo
         )
       },
       voucher => {
-        voucherRepo.update(voucher.id, Voucher(voucher.id, voucher.amount, voucher.usages)).map { _ =>
+        voucherRepo.update(voucher.id, Voucher(voucher.id, voucher.code, voucher.amount, voucher.usages)).map { _ =>
           Redirect("/form/voucher/list")
         }
       }
@@ -68,6 +68,7 @@ class VoucherController @Inject()(voucherRepo: VoucherRepository, cc: MessagesCo
 
   val voucherForm: Form[CreateVoucherForm] = Form {
     mapping(
+      "code" -> text,
       "amount" -> number,
       "usages" -> number,
     )(CreateVoucherForm.apply)(CreateVoucherForm.unapply)
@@ -76,12 +77,13 @@ class VoucherController @Inject()(voucherRepo: VoucherRepository, cc: MessagesCo
   val updateVoucherForm: Form[UpdateVoucherForm] = Form {
     mapping(
       "id" -> longNumber,
+      "code" -> text,
       "amount" -> number,
       "usages" -> number,
     )(UpdateVoucherForm.apply)(UpdateVoucherForm.unapply)
   }
 }
 
-case class CreateVoucherForm(amount: Int, usages: Int)
+case class CreateVoucherForm(code: String, amount: Int, usages: Int)
 
-case class UpdateVoucherForm(id: Long, amount: Int, usages: Int)
+case class UpdateVoucherForm(id: Long, code: String, amount: Int, usages: Int)

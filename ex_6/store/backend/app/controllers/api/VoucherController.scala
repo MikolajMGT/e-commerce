@@ -24,6 +24,16 @@ class VoucherController @Inject()(val voucherRepo: VoucherRepository, cc: Contro
     }
   }
 
+  def getVoucherByCode(code: String): Action[AnyContent] = Action.async {
+    logger.info(s"getVoucherByCode($code)")
+
+    val voucher = voucherRepo.getByCodeOption(code)
+    voucher.map {
+      case Some(res) => Ok(Json.toJson(res))
+      case None => NotFound("voucher with given id cannot be found")
+    }
+  }
+
   def listVouchers(): Action[AnyContent] = Action.async {
     logger.info(s"listVouchers()")
 
@@ -39,7 +49,7 @@ class VoucherController @Inject()(val voucherRepo: VoucherRepository, cc: Contro
 
     request.body.validate[Voucher].map {
       voucher =>
-        voucherRepo.create(voucher.amount, voucher.usages).map { res =>
+        voucherRepo.create(voucher.code, voucher.amount, voucher.usages).map { res =>
           logger.debug(s"voucher created: $res")
           Ok(Json.toJson(res))
         }

@@ -1,51 +1,47 @@
 import React, {FC} from 'react';
-import {
-	Button,
-	Dialog,
-	DialogContent,
-	DialogContentText,
-	DialogTitle,
-	Input,
-} from '@material-ui/core';
-import {useHistory} from 'react-router';
+import CancelIcon from '@material-ui/icons/Cancel';
+import {Button, DialogContentText, Input} from '@material-ui/core';
 import {Field, Form, Formik, FormikHelpers} from 'formik';
-import {CreditCardStyled} from './CreditCardStyled';
+import Box from "@material-ui/core/Box";
+import { Container } from '@material-ui/core';
+import { CreditCardModalStyled } from './CreditCardStyled';
+import { Row } from 'react-bootstrap';
+import {RootStore} from '../../stores/RootStore';
+import {inject, observer} from 'mobx-react';
 import {addCreditCard} from '../../services/creditCard';
 
-export interface CreditCardProps {
-	//
+interface CreditCardModalProps {
+	close: any
 }
 
-export const CreditCard: FC<CreditCardProps> = () => {
-	const history = useHistory();
-	const [open, setOpen] = React.useState(false);
-
-	const handleClickOpen = () => {
-		setOpen(true);
-	};
-
-	const handleClose = () => {
-		setOpen(false);
-	};
-
+export const CreditCardModal: FC<{ store?: RootStore } & CreditCardModalProps> = inject('store')(observer(({store, close}) => {
+	const userStore = store?.userStore
+	const cardStore = store?.creditCardsStore
 
 	const onSubmit = async (data: {
 		cardholderName: string,
 		number: string,
 		expDate: string,
-		cvcCode: string
+		cvcCode: string,
 	}, actions: FormikHelpers<any>) => {
+
 		actions.resetForm();
-		const res = await addCreditCard(data.cardholderName, data.number, data.expDate, data.cvcCode);
-		history.push('/submit')
+		if (userStore?.user) {
+			try {
+				const res = await addCreditCard(userStore.user.id, data.cardholderName, data.number, data.expDate, data.cvcCode);
+				cardStore?.addCard(res.data)
+				close()
+			} catch (error) {
+				console.log(error)
+			}
+		}
 	};
 
 	return (
-		<CreditCardStyled>
-			<Button onClick={handleClickOpen} className="signUpBtn" color="secondary"> Enter your credit card details</Button>
-			<Dialog open={open} onClose={handleClose} aria-labelledby="form-dialog-title">
-				<DialogTitle id="form-dialog-title">Register</DialogTitle>
-				<DialogContent>
+		<CreditCardModalStyled>
+			<Box  className="cancel"><CancelIcon style={{color: "#d02015"}} onClick={() => close()}/></Box>
+			<Container className="content" >
+				<Row style={{alignItems: "center", display:"flex"}}>
 					<Formik initialValues={{
 						cardholderName: '',
 						number: '',
@@ -77,15 +73,14 @@ export const CreditCard: FC<CreditCardProps> = () => {
 								       error={errors.cvcCode && touched.cvcCode ? errors.cvcCode : null}/>
 
 								<div className="row acceptBtn">
-									<Field as={Button} onClick={handleClose} type='submit' disabled={isSubmitting}
-									       color="primary">Sign up</Field>
+									<Field as={Button} type='submit' disabled={isSubmitting}
+									       color="primary">Save Credit Card</Field>
 								</div>
 							</Form>
 						)}
 					</Formik>
-				</DialogContent>
-			</Dialog>
-		</CreditCardStyled>
+				</Row>
+			</Container>
+		</CreditCardModalStyled>
 	);
-}
-
+}));

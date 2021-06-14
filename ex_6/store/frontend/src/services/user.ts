@@ -16,3 +16,7 @@ export const login = async (email: string, password: string) => {
 		password: password
 	})
 }
+
+export const getUser = async (userId: number) => {
+	return axios.get(`${HOST}/api/user/get-by-id/${userId}`)
+}

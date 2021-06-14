@@ -1,8 +1,11 @@
 import {AppBar, IconButton, Toolbar, Typography} from '@material-ui/core';
 import React, {FC} from 'react';
 import {useHistory} from 'react-router';
+import {RootStore} from '../../stores/RootStore';
+import {inject, observer} from 'mobx-react';
 
-export const Page: FC = ({children}) => {
+export const Page: FC<{store?: RootStore}> = inject("store")(observer(({store, children}) => {
+	const userStore = store?.userStore
 	const history = useHistory()
 
 	return (
@@ -19,10 +22,20 @@ export const Page: FC = ({children}) => {
 							<IconButton color='inherit' onClick={() => history.push('/cart')}>
 								<img height='35px' src='images/shopping-cart.svg' alt='store'/>
 							</IconButton>
+							<IconButton color='inherit' onClick={() => {
+								if (!userStore?.user) {
+									history.push('/history')
+									history.push('/login')
+								} else {
+									history.push('/history')
+								}
+							}}>
+								<img height='35px' src='images/order-list.svg' alt='store'/>
+							</IconButton>
 						</div>
 				</Toolbar>
 			</AppBar>
 			{children}
 		</>
 	);
-}
+}));

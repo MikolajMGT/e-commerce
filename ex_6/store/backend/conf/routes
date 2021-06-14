@@ -188,6 +188,7 @@ DELETE        /api/user/delete/:id                                 controllers.a
 
 # Voucher
 GET           /api/voucher/get-by-id/:id                           controllers.api.VoucherController.getVoucherById(id: Long)
+GET           /api/voucher/get-by-code/:code                       controllers.api.VoucherController.getVoucherByCode(code: String)
 GET           /api/voucher/list                                    controllers.api.VoucherController.listVouchers
 POST          /api/voucher/create                                  controllers.api.VoucherController.createVoucher
 PUT           /api/voucher/update                                  controllers.api.VoucherController.updateVoucher

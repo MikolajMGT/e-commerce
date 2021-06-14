@@ -1,5 +1,5 @@
 @import controllers.view.UpdateOrderForm
-@(order: Form[UpdateOrderForm], users: Seq[User], payments: Seq[Payment], vouchers: Seq[Voucher])(implicit request: MessagesRequestHeader, flash: Flash)
+@(order: Form[UpdateOrderForm], users: Seq[User], addresses: Seq[UserAddress], payments: Seq[Payment], vouchers: Seq[Voucher])(implicit request: MessagesRequestHeader, flash: Flash)
 
 @import helper._
 
@@ -16,6 +16,18 @@
             <option value="@entity.id" selected>@entity.email</option>
         } else {
             <option value="@entity.id">@entity.email</option>
+        }
+
+    }
+    </select>
+
+    <label for="address"></label>
+    <select name="addressId" id="address">
+    @for(entity <- addresses) {
+        @if(entity.id.toString == order("address").value.getOrElse(0)) {
+            <option value="@entity.id" selected>@entity.address</option>
+        } else {
+            <option value="@entity.id">@entity.address</option>
         }
 
     }
