@@ -13,7 +13,7 @@ jobs:
   build:
     runs-on: 'ubuntu-latest'
     env:
-      working-directory: ./ex_8/store/frontend
+      working-directory: ./ex_8/store/backend
 
     steps:
     - uses: actions/checkout@v2
