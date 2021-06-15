@@ -28,5 +28,4 @@ WORKDIR /src
 COPY ex_8/store/backend/ .
 EXPOSE ${REACT_PORT} ${PLAY_PORT}
 
-#ENTRYPOINT bash /usr/local/sbt/bin/sbt run
-ENTRYPOINT sh
+ENTRYPOINT bash /usr/local/sbt/bin/sbt run
