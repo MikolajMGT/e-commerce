@@ -28,4 +28,5 @@ WORKDIR /src
 COPY . .
 EXPOSE ${REACT_PORT} ${PLAY_PORT}
 
-ENTRYPOINT bash /usr/local/sbt/bin/sbt run
+#ENTRYPOINT bash /usr/local/sbt/bin/sbt run
+ENTRYPOINT sh
