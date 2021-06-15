@@ -31,7 +31,7 @@ jobs:
       with:
         push: true
         tags: index.docker.io/${{ secrets.AzureAppService_ContainerUsername_73cb970eaae240628b450fc86a4d7c90 }}/mikolajmgt/amazing-store-backend:${{ github.sha }}
-        file: ./Dockerfile
+        file: ${{env.working-directory}}/Dockerfile
 
   deploy:
     runs-on: ubuntu-latest
