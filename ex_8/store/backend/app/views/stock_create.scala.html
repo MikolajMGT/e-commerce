@@ -1,0 +1,17 @@
+
+@(stock: Form[CreateStockForm])(implicit request: MessagesRequestHeader, flash: Flash)
+
+
+
+@flash.get("success").getOrElse("")
+
+@form(controllers.view.routes.StockController.createStockHandle()) {
+    @helper.CSRF.formField
+    @inputText(stock("unitPrice"))
+    @inputText(stock("totalPrice"))
+    @inputText(stock("totalStock"))
+
+    <div class="buttons">
+        <input type="submit" value="Add Stock"/>
+    </div>
+}

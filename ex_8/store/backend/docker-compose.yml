@@ -1,0 +1,12 @@
+version: '3'
+services:
+  store:
+    network_mode: host
+    build: .
+    ports:
+      - 9000:9000
+      - 3000:3000
+    volumes:
+      - .:/home/mikolaj/store/
+    working_dir: /home/mikolaj/store/
+    command: bash -c "/usr/local/sbt/bin/sbt run"
