@@ -5,14 +5,9 @@ ENV SCALA_VERSION=2.12.13 \
     SBT_VERSION=1.5.1 \
     JDK_VERSION=8.275.01-r0 \
     REACT_PORT=3000 \
-    PLAY_PORT=9000 \
-    USER=mikolaj
+    PLAY_PORT=9000
 
-RUN apk add sudo && \
-    adduser -D ${USER} && \
-    echo "${USER} ALL=(ALL) NOPASSWD: ALL" > /etc/sudoers.d/${USER} && \
-    chmod 0440 /etc/sudoers.d/${USER} && \
-    apk add --update npm && \
+RUN apk add --update npm && \
     apk add openjdk8=${JDK_VERSION} && \
     apk add --no-cache --virtual=.build-dependencies wget ca-certificates && \
     apk add --no-cache bash curl jq && \
@@ -29,9 +24,8 @@ RUN apk add sudo && \
     mkdir -p "/usr/local/sbt" && \
     wget -qO - --no-check-certificate "https://github.com/sbt/sbt/releases/download/v${SBT_VERSION}/sbt-${SBT_VERSION}.tgz" | tar xz -C /usr/local/sbt --strip-components=1 && sbt sbtVersion
 
-USER ${USER}
 WORKDIR /src
-VOLUME /src
+COPY . .
 EXPOSE ${REACT_PORT} ${PLAY_PORT}
 
-#ENTRYPOINT bash
+ENTRYPOINT bash /usr/local/sbt/bin/sbt run
