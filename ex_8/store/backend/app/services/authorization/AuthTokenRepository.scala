@@ -1,8 +1,20 @@
 package services.authorization
 
+import models.AuthToken
+
+import javax.inject.{Inject, Singleton}
+import play.api.db.slick.DatabaseConfigProvider
+import slick.jdbc.JdbcProfile
+
+import scala.concurrent.{ExecutionContext, Future}
+import scala.language.postfixOps
+
 @Singleton
 class AuthTokenRepository @Inject()(dbConfigProvider: DatabaseConfigProvider)(implicit ec: ExecutionContext) {
   val dbConfig = dbConfigProvider.get[JdbcProfile]
+
+  import dbConfig._
+  import profile.api._
 
   class AuthTokenTable(tag: Tag) extends Table[AuthToken](tag, "authToken") {
     def id = column[Long]("id", O.PrimaryKey, O.AutoInc)

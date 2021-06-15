@@ -1,5 +1,18 @@
 package controllers.api.authorization
 
+import com.mohiva.play.silhouette.api.actions.SecuredRequest
+import com.mohiva.play.silhouette.api.exceptions.ProviderException
+import com.mohiva.play.silhouette.api.util.Credentials
+import com.mohiva.play.silhouette.impl.exceptions.IdentityNotFoundException
+import controllers.api.authorization.request.SignInRequest
+
+import javax.inject.{Inject, Singleton}
+import play.api.mvc._
+import play.filters.csrf.CSRF.Token
+import play.filters.csrf.{CSRF, CSRFAddToken}
+
+import scala.concurrent.{ExecutionContext, Future}
+
 @Singleton
 class SignInController @Inject()(scc: DefaultSilhouetteControllerComponents, addToken: CSRFAddToken)(implicit ex: ExecutionContext) extends AbstractAuthController(scc) {
 

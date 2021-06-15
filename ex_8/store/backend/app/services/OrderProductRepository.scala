@@ -1,8 +1,22 @@
 package services
 
+import models.{Order, OrderProduct, Product}
+import play.api.db.slick.DatabaseConfigProvider
+import slick.jdbc.JdbcProfile
+
+import java.sql.Timestamp
+import java.time.Instant
+import java.util.Date
+import javax.inject.{Inject, Singleton}
+import scala.concurrent.duration.DurationInt
+import scala.concurrent.{Await, ExecutionContext, Future}
+
 @Singleton
 class OrderProductRepository @Inject()(dbConfigProvider: DatabaseConfigProvider, val orderRepository: OrderRepository, val productRepository: ProductRepository)(implicit ec: ExecutionContext) {
   val dbConfig = dbConfigProvider.get[JdbcProfile]
+
+  import dbConfig._
+  import profile.api._
 
   class OrderProductTable(tag: Tag) extends Table[OrderProduct](tag, "order_product") {
     def currentWhenInserting = new Timestamp((new Date).getTime)
@@ -25,6 +39,9 @@ class OrderProductRepository @Inject()(dbConfigProvider: DatabaseConfigProvider,
 
     def * = (id, orderId, productId, amount, createdAt, updatedAt) <> ((OrderProduct.apply _).tupled, OrderProduct.unapply)
   }
+
+  import orderRepository.OrderTable
+  import productRepository.ProductTable
 
   val orderProduct = TableQuery[OrderProductTable]
   val order_ = TableQuery[OrderTable]

@@ -1,8 +1,21 @@
 package services
 
+import models.Product
+import play.api.db.slick.DatabaseConfigProvider
+import slick.jdbc.JdbcProfile
+
+import java.sql.Timestamp
+import java.time.Instant
+import java.util.Date
+import javax.inject.{Inject, Singleton}
+import scala.concurrent.{ExecutionContext, Future}
+
 @Singleton
 class ProductRepository @Inject()(dbConfigProvider: DatabaseConfigProvider, val stockRepository: StockRepository, val categoryRepository: CategoryRepository, val subcategoryRepository: SubcategoryRepository)(implicit ec: ExecutionContext) {
   val dbConfig = dbConfigProvider.get[JdbcProfile]
+
+  import dbConfig._
+  import profile.api._
 
   class ProductTable(tag: Tag) extends Table[Product](tag, "product") {
     def currentWhenInserting = new Timestamp((new Date).getTime)
@@ -33,6 +46,10 @@ class ProductRepository @Inject()(dbConfigProvider: DatabaseConfigProvider, val 
 
     def * = (id, stockId, categoryId, subcategoryId, name, imageUrl, description, createdAt, updatedAt) <> ((Product.apply _).tupled, Product.unapply)
   }
+
+  import categoryRepository.CategoryTable
+  import stockRepository.StockTable
+  import subcategoryRepository.SubcategoryTable
 
   val product = TableQuery[ProductTable]
   val stock_ = TableQuery[StockTable]

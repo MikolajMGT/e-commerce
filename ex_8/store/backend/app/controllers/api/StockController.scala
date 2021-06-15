@@ -1,5 +1,14 @@
 package controllers.api
 
+import models.Stock
+import play.api.Logger
+import play.api.libs.json.{JsValue, Json}
+import play.api.mvc._
+import services.StockRepository
+
+import javax.inject._
+import scala.concurrent.{ExecutionContext, Future}
+
 @Singleton
 class StockController @Inject()(val stockRepo: StockRepository, cc: ControllerComponents)(implicit exec: ExecutionContext) extends AbstractController(cc) {
 

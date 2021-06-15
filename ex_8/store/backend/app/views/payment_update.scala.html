@@ -1,7 +1,7 @@
-
+@import controllers.view.UpdatePaymentForm
 @(payment: Form[UpdatePaymentForm], users: Seq[User], creditCards: Seq[CreditCard])(implicit request: MessagesRequestHeader, flash: Flash)
 
-
+@import helper._
 
 @flash.get("success").getOrElse("")
 

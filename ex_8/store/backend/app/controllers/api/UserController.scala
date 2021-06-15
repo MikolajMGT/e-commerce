@@ -1,5 +1,13 @@
 package controllers.api
 
+import play.api.Logger
+import play.api.libs.json.Json
+import play.api.mvc._
+import services.UserRepository
+
+import javax.inject._
+import scala.concurrent.ExecutionContext
+
 @Singleton
 class UserController @Inject()(val userRepo: UserRepository, cc: ControllerComponents)(implicit exec: ExecutionContext) extends AbstractController(cc) {
 

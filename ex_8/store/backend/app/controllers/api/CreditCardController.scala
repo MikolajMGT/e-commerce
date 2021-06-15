@@ -1,5 +1,14 @@
 package controllers.api
 
+import models.CreditCard
+import play.api.Logger
+import play.api.libs.json.{JsValue, Json}
+import play.api.mvc._
+import services.CreditCardRepository
+
+import javax.inject._
+import scala.concurrent.{ExecutionContext, Future}
+
 @Singleton
 class CreditCardController @Inject()(val creditCardRepo: CreditCardRepository, cc: ControllerComponents)(implicit exec: ExecutionContext) extends AbstractController(cc) {
 

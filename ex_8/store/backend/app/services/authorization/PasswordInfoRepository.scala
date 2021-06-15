@@ -1,8 +1,21 @@
 package services.authorization
 
+import com.mohiva.play.silhouette.api.LoginInfo
+import com.mohiva.play.silhouette.api.util.PasswordInfo
+import com.mohiva.play.silhouette.persistence.daos.DelegableAuthInfoDAO
+import javax.inject.Inject
+import play.api.db.slick.DatabaseConfigProvider
+import slick.jdbc.JdbcProfile
+
+import scala.concurrent.{ExecutionContext, Future}
+import scala.reflect.ClassTag
+
 class PasswordInfoRepository @Inject()(dbConfigProvider: DatabaseConfigProvider)(implicit ec: ExecutionContext,
                                                                                  implicit val classTag: ClassTag[PasswordInfo]) extends DelegableAuthInfoDAO[PasswordInfo] {
   val dbConfig = dbConfigProvider.get[JdbcProfile]
+
+  import dbConfig._
+  import profile.api._
 
   case class PasswordInfoDto(id: Long, providerId: String, providerKey: String, hasher: String, password: String, salt: Option[String])
 

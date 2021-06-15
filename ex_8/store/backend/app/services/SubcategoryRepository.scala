@@ -1,8 +1,21 @@
 package services
 
+import models.Subcategory
+import play.api.db.slick.DatabaseConfigProvider
+import slick.jdbc.JdbcProfile
+
+import java.sql.Timestamp
+import java.time.Instant
+import java.util.Date
+import javax.inject.{Inject, Singleton}
+import scala.concurrent.{ExecutionContext, Future}
+
 @Singleton
 class SubcategoryRepository @Inject()(dbConfigProvider: DatabaseConfigProvider, val categoryRepository: CategoryRepository)(implicit ec: ExecutionContext) {
   val dbConfig = dbConfigProvider.get[JdbcProfile]
+
+  import dbConfig._
+  import profile.api._
 
   class SubcategoryTable(tag: Tag) extends Table[Subcategory](tag, "subcategory") {
     def currentWhenInserting = new Timestamp((new Date).getTime)
@@ -21,6 +34,8 @@ class SubcategoryRepository @Inject()(dbConfigProvider: DatabaseConfigProvider, 
 
     def * = (id, categoryId, name, createdAt, updatedAt) <> ((Subcategory.apply _).tupled, Subcategory.unapply)
   }
+
+  import categoryRepository.CategoryTable
 
   val subcategory = TableQuery[SubcategoryTable]
   val category_ = TableQuery[CategoryTable]

@@ -1,5 +1,14 @@
 package controllers.api
 
+import models.Subcategory
+import play.api.Logger
+import play.api.libs.json.{JsValue, Json}
+import play.api.mvc._
+import services.SubcategoryRepository
+
+import javax.inject._
+import scala.concurrent.{ExecutionContext, Future}
+
 @Singleton
 class SubcategoryController @Inject()(val subcategoryRepo: SubcategoryRepository, cc: ControllerComponents)(implicit exec: ExecutionContext) extends AbstractController(cc) {
 

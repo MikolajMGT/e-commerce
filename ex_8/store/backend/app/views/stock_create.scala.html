@@ -1,7 +1,7 @@
-
+@import controllers.view.CreateStockForm
 @(stock: Form[CreateStockForm])(implicit request: MessagesRequestHeader, flash: Flash)
 
-
+@import helper._
 
 @flash.get("success").getOrElse("")
 

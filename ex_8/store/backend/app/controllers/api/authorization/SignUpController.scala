@@ -1,5 +1,16 @@
 package controllers.api.authorization
 
+import com.mohiva.play.silhouette.api._
+import com.mohiva.play.silhouette.impl.providers._
+import controllers.api.authorization.request.SignUpRequest
+
+import javax.inject.Inject
+import play.api.libs.json.Json
+import play.api.mvc.{Action, AnyContent, Request}
+
+import scala.concurrent.{ExecutionContext, Future}
+import scala.language.postfixOps
+
 class SignUpController @Inject()(components: DefaultSilhouetteControllerComponents)(implicit ex: ExecutionContext) extends SilhouetteController(components) {
 
   def signUp: Action[AnyContent] = unsecuredAction.async { implicit request: Request[AnyContent] =>

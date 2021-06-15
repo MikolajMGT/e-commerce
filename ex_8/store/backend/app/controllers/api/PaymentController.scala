@@ -1,5 +1,14 @@
 package controllers.api
 
+import models.Payment
+import play.api.Logger
+import play.api.libs.json.{JsValue, Json}
+import play.api.mvc._
+import services.PaymentRepository
+
+import javax.inject._
+import scala.concurrent.{ExecutionContext, Future}
+
 @Singleton
 class PaymentController @Inject()(val paymentRepo: PaymentRepository, cc: ControllerComponents)(implicit exec: ExecutionContext) extends AbstractController(cc) {
 

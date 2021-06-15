@@ -1,7 +1,7 @@
-
+@import controllers.view.UpdateUserAddressForm
 @(userAddress: Form[UpdateUserAddressForm], users: Seq[User])(implicit request: MessagesRequestHeader, flash: Flash)
 
-
+@import helper._
 
 @flash.get("success").getOrElse("")
 

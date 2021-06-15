@@ -1,5 +1,14 @@
 package controllers.view
 
+import models.Category
+import play.api.data.Form
+import play.api.data.Forms._
+import play.api.mvc._
+import services.CategoryRepository
+
+import javax.inject._
+import scala.concurrent.{ExecutionContext, Future}
+
 @Singleton
 class CategoryController @Inject()(categoryRepo: CategoryRepository, cc: MessagesControllerComponents)(implicit ec: ExecutionContext) extends MessagesAbstractController(cc) {
 

@@ -1,7 +1,7 @@
-
+@import controllers.view.CreateOrderProductForm
 @(orderProduct: Form[CreateOrderProductForm], orders: Seq[Order], products: Seq[Product])(implicit request: MessagesRequestHeader, flash: Flash)
 
-
+@import helper._
 
 @flash.get("success").getOrElse("")
 

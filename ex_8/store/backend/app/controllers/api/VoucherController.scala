@@ -1,5 +1,14 @@
 package controllers.api
 
+import models.Voucher
+import play.api.Logger
+import play.api.libs.json.{JsValue, Json}
+import play.api.mvc._
+import services.VoucherRepository
+
+import javax.inject._
+import scala.concurrent.{ExecutionContext, Future}
+
 @Singleton
 class VoucherController @Inject()(val voucherRepo: VoucherRepository, cc: ControllerComponents)(implicit exec: ExecutionContext) extends AbstractController(cc) {
 

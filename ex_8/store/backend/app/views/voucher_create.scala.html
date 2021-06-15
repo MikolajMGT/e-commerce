@@ -1,7 +1,7 @@
-
+@import controllers.view.CreateVoucherForm
 @(voucher: Form[CreateVoucherForm])(implicit request: MessagesRequestHeader, flash: Flash)
 
-
+@import helper._
 
 @flash.get("success").getOrElse("")
 

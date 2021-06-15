@@ -1,5 +1,14 @@
 package controllers.api
 
+import models.OrderProduct
+import play.api.Logger
+import play.api.libs.json.{JsValue, Json}
+import play.api.mvc._
+import services.OrderProductRepository
+
+import javax.inject._
+import scala.concurrent.{ExecutionContext, Future}
+
 @Singleton
 class OrderProductController @Inject()(val orderProductRepo: OrderProductRepository, cc: ControllerComponents)(implicit exec: ExecutionContext) extends AbstractController(cc) {
 

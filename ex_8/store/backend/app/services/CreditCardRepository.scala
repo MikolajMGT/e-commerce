@@ -1,8 +1,21 @@
 package services
 
+import models.CreditCard
+import play.api.db.slick.DatabaseConfigProvider
+import slick.jdbc.JdbcProfile
+
+import java.sql.Timestamp
+import java.time.Instant
+import java.util.Date
+import javax.inject.{Inject, Singleton}
+import scala.concurrent.{ExecutionContext, Future}
+
 @Singleton
 class CreditCardRepository @Inject()(dbConfigProvider: DatabaseConfigProvider, val userRepository: UserRepository)(implicit ec: ExecutionContext) {
   val dbConfig = dbConfigProvider.get[JdbcProfile]
+
+  import dbConfig._
+  import profile.api._
 
   class CreditCardTable(tag: Tag) extends Table[CreditCard](tag, "credit_card") {
     def currentWhenInserting = new Timestamp((new Date).getTime)
@@ -27,6 +40,8 @@ class CreditCardRepository @Inject()(dbConfigProvider: DatabaseConfigProvider, v
 
     def * = (id, userId, cardholderName, number, expDate, cvcCode, createdAt, updatedAt) <> ((CreditCard.apply _).tupled, CreditCard.unapply)
   }
+
+  import userRepository.UserTable
 
   val creditCard = TableQuery[CreditCardTable]
   val user_ = TableQuery[UserTable]

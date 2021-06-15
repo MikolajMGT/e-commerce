@@ -1,8 +1,21 @@
 package services
 
+import models.UserAddress
+import play.api.db.slick.DatabaseConfigProvider
+import slick.jdbc.JdbcProfile
+
+import java.sql.Timestamp
+import java.time.Instant
+import java.util.Date
+import javax.inject.{Inject, Singleton}
+import scala.concurrent.{ExecutionContext, Future}
+
 @Singleton
 class UserAddressRepository @Inject()(dbConfigProvider: DatabaseConfigProvider, val userRepository: UserRepository)(implicit ec: ExecutionContext) {
   val dbConfig = dbConfigProvider.get[JdbcProfile]
+
+  import dbConfig._
+  import profile.api._
 
   class UserAddressTable(tag: Tag) extends Table[UserAddress](tag, "user_address") {
     def currentWhenInserting = new Timestamp((new Date).getTime)
@@ -31,6 +44,8 @@ class UserAddressRepository @Inject()(dbConfigProvider: DatabaseConfigProvider, 
 
     def * = (id, userId, firstname, lastname, address, zipcode, city, country, createdAt, updatedAt) <> ((UserAddress.apply _).tupled, UserAddress.unapply)
   }
+
+  import userRepository.UserTable
 
   val userAddress = TableQuery[UserAddressTable]
   val user_ = TableQuery[UserTable]

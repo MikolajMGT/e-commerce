@@ -1,5 +1,21 @@
 package controllers.api.authorization
 
+import com.mohiva.play.silhouette.api.Silhouette
+import com.mohiva.play.silhouette.api.actions.{SecuredActionBuilder, UnsecuredActionBuilder}
+import com.mohiva.play.silhouette.api.repositories.AuthInfoRepository
+import com.mohiva.play.silhouette.api.services.AuthenticatorService
+import com.mohiva.play.silhouette.api.util.{Clock, PasswordHasherRegistry}
+import com.mohiva.play.silhouette.impl.providers.{CredentialsProvider, SocialProviderRegistry}
+
+import javax.inject.{Inject, Singleton}
+import play.api.Logging
+import play.api.http.FileMimeTypes
+import play.api.i18n.{I18nSupport, Langs, MessagesApi}
+import play.api.mvc._
+import services.UserRepository
+import services.authorization.AuthTokenRepository
+import utils.DefaultEnv
+
 abstract class SilhouetteController(override protected val controllerComponents: DefaultSilhouetteControllerComponents)
   extends MessagesAbstractController(controllerComponents) with SilhouetteComponents with I18nSupport with Logging {
 

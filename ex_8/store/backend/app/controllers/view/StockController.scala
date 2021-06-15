@@ -1,5 +1,14 @@
 package controllers.view
 
+import models.Stock
+import play.api.data.Form
+import play.api.data.Forms._
+import play.api.mvc._
+import services.StockRepository
+
+import javax.inject._
+import scala.concurrent.{ExecutionContext, Future}
+
 @Singleton
 class StockController @Inject()(stockRepo: StockRepository, cc: MessagesControllerComponents)(implicit ec: ExecutionContext) extends MessagesAbstractController(cc) {
 

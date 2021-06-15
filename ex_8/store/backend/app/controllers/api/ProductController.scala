@@ -1,5 +1,14 @@
 package controllers.api
 
+import models.Product
+import play.api.Logger
+import play.api.libs.json.{JsValue, Json}
+import play.api.mvc._
+import services.{CategoryRepository, ProductRepository}
+
+import javax.inject._
+import scala.concurrent.{ExecutionContext, Future}
+
 @Singleton
 class ProductController @Inject()(val productRepo: ProductRepository, val categoryRepo: CategoryRepository, cc: ControllerComponents)(implicit exec: ExecutionContext) extends AbstractController(cc) {
 

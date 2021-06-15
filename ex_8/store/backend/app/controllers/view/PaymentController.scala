@@ -1,5 +1,16 @@
 package controllers.view
 
+import models.{CreditCard, Payment, User}
+import play.api.data.Form
+import play.api.data.Forms._
+import play.api.mvc._
+import services.{CreditCardRepository, PaymentRepository, UserRepository}
+
+import javax.inject._
+import scala.concurrent.duration.DurationInt
+import scala.concurrent.{Await, ExecutionContext, Future}
+import scala.util.{Failure, Success}
+
 @Singleton
 class PaymentController @Inject()(paymentRepo: PaymentRepository, userRepo: UserRepository, creditCardRepo: CreditCardRepository, cc: MessagesControllerComponents)(implicit ec: ExecutionContext) extends MessagesAbstractController(cc) {
 

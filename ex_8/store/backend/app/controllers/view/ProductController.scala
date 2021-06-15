@@ -1,5 +1,16 @@
 package controllers.view
 
+import models.{Category, Product, Stock, Subcategory}
+import play.api.data.Form
+import play.api.data.Forms._
+import play.api.mvc._
+import services.{CategoryRepository, ProductRepository, StockRepository, SubcategoryRepository}
+
+import javax.inject._
+import scala.concurrent.duration.DurationInt
+import scala.concurrent.{Await, ExecutionContext, Future}
+import scala.util.{Failure, Success}
+
 @Singleton
 class ProductController @Inject()(productRepo: ProductRepository, stockRepo: StockRepository, categoryRepo: CategoryRepository, subcategoryRepo: SubcategoryRepository, cc: MessagesControllerComponents)(implicit ec: ExecutionContext) extends MessagesAbstractController(cc) {
 

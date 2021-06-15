@@ -1,5 +1,14 @@
 package controllers.api
 
+import models.UserAddress
+import play.api.Logger
+import play.api.libs.json.{JsValue, Json}
+import play.api.mvc._
+import services.UserAddressRepository
+
+import javax.inject._
+import scala.concurrent.{ExecutionContext, Future}
+
 @Singleton
 class UserAddressController @Inject()(val userAddressRepo: UserAddressRepository, cc: ControllerComponents)(implicit exec: ExecutionContext) extends AbstractController(cc) {
 

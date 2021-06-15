@@ -1,5 +1,14 @@
 package controllers.view
 
+import models.Voucher
+import play.api.data.Form
+import play.api.data.Forms._
+import play.api.mvc._
+import services.VoucherRepository
+
+import javax.inject._
+import scala.concurrent.{ExecutionContext, Future}
+
 @Singleton
 class VoucherController @Inject()(voucherRepo: VoucherRepository, cc: MessagesControllerComponents)(implicit ec: ExecutionContext) extends MessagesAbstractController(cc) {
 
