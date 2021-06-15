@@ -12,6 +12,8 @@ on:
 jobs:
   build:
     runs-on: 'ubuntu-latest'
+    env:
+      working-directory: ./ex_8/store/backend
 
     steps:
     - uses: actions/checkout@v2
@@ -31,7 +33,7 @@ jobs:
       with:
         push: true
         tags: index.docker.io/${{ secrets.AzureAppService_ContainerUsername_3502d5c53e2e4b4babaf4f877c0ed81a }}/amazing-store-backend:${{ github.sha }}
-        file: ./Dockerfile
+        file: ${{env.working-directory}}/Dockerfile
 
   deploy:
     runs-on: ubuntu-latest
