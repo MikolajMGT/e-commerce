@@ -31,6 +31,7 @@ jobs:
     - name: Build and push container image to registry
       uses: docker/build-push-action@v2
       with:
+        context: .
         push: true
         tags: index.docker.io/${{ secrets.AzureAppService_ContainerUsername_799406ec48634e72ab3bfc10ec776c90 }}/mikolajmgt/amazing-store-backend:${{ github.sha }}
         file: ${{env.working-directory}}/Dockerfile
