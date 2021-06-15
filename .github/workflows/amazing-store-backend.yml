@@ -1,7 +1,7 @@
 # Docs for the Azure Web Apps Deploy action: https://github.com/Azure/webapps-deploy
 # More GitHub Actions for Azure: https://github.com/Azure/actions
 
-name: Build and deploy container app to Azure Web App - amazing-store-backend
+name: Amazing Store - backend
 
 on:
   push:
@@ -12,6 +12,8 @@ on:
 jobs:
   build:
     runs-on: 'ubuntu-latest'
+    env:
+      working-directory: ./ex_8/store/backend
 
     steps:
     - uses: actions/checkout@v2
@@ -31,7 +33,7 @@ jobs:
       with:
         push: true
         tags: index.docker.io/${{ secrets.AzureAppService_ContainerUsername_4a44c05e52c94f248562d11a892c56ef }}/amazing-store-backend:${{ github.sha }}
-        file: ./Dockerfile
+        file: ${{env.working-directory}}/Dockerfile
 
   deploy:
     runs-on: ubuntu-latest
