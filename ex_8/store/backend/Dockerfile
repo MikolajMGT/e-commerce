@@ -28,5 +28,5 @@ WORKDIR /src
 COPY ex_8/store/backend/ .
 EXPOSE ${REACT_PORT} ${PLAY_PORT}
 
-RUN /usr/local/sbt/bin/sbt compile
+RUN /usr/local/sbt/bin/sbt package
 ENTRYPOINT bash /usr/local/sbt/bin/sbt run
