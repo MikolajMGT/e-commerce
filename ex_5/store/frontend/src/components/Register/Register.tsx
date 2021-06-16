@@ -56,17 +56,17 @@ export const Register: FC<RegisterProps> = () => {
 							<Form className="registerForm">
 
 								<DialogContentText style={{color: "#FCFDFE"}}>Email:</DialogContentText>
-								<Field as={Input} style={{backgroundColor: "#52585D", color: "#FCFDFE"}} name='email'
+								<Field as={Input} style={{backgroundColor: "#52585D", color: "#FFFFFF"}} name='email'
 								       required
 								       error={errors.email && touched.email ? errors.email : null}/>
 
 								<DialogContentText style={{color: "#FCFDFE"}}>Nickname:</DialogContentText>
-								<Field as={Input} style={{backgroundColor: "#52585D", color: "#FCFDFE"}} name='nickname'
+								<Field as={Input} style={{backgroundColor: "#52585D", color: "#FFFFFF"}} name='nickname'
 								       required
 								       error={errors.nickname && touched.nickname ? errors.nickname : null}/>
 
 								<DialogContentText style={{color: "#FCFDFE"}}>Password:</DialogContentText>
-								<Field as={Input} style={{backgroundColor: "#52585D", color: "#FCFDFE"}} name='password'
+								<Field as={Input} style={{backgroundColor: "#52585D", color: "#FFFFFF"}} name='password'
 								       type="password"
 								       required
 								       error={errors.password && touched.password ? errors.password : null}/>
