@@ -24,7 +24,7 @@ class CreditCardRepository @Inject()(dbConfigProvider: DatabaseConfigProvider, v
 
     def userId = column[Long]("user_id")
 
-    def user_fk = foreignKey("user_fk", userId, user_)(_.id)
+    def userFk = foreignKey("user_fk", userId, user_)(_.id)
 
     def cardholderName: Rep[String] = column[String]("cardholder_name")
 
@@ -65,8 +65,8 @@ class CreditCardRepository @Inject()(dbConfigProvider: DatabaseConfigProvider, v
     creditCard.filter(_.userId === userId).result
   }
 
-  def update(id: Long, new_creditCard: CreditCard): Future[Int] = {
-    val creditCardToUpdate: CreditCard = new_creditCard.copy(id)
+  def update(id: Long, newCreditCard: CreditCard): Future[Int] = {
+    val creditCardToUpdate: CreditCard = newCreditCard.copy(id)
     db.run(creditCard.filter(_.id === id).update(creditCardToUpdate))
   }
 

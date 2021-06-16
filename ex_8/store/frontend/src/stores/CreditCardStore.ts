@@ -35,7 +35,7 @@ export class CreditCardStore implements ICreditCardStore {
             this.card = userCreditCards.data;
         }
         const cards = this.card.map((card: CreditCardDb) => {
-            const newCreditCard: CreditCardDb = {
+            return {
                 id: card.id,
                 userId: card.userId,
                 cardholderName: card.cardholderName,
@@ -45,7 +45,6 @@ export class CreditCardStore implements ICreditCardStore {
                 createdAt: card.createdAt,
                 updatedAt: card.updatedAt
             };
-            return newCreditCard;
         });
         return [...cards];
     };

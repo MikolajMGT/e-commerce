@@ -14,6 +14,8 @@ import scala.util.{Failure, Success}
 @Singleton
 class ProductController @Inject()(productRepo: ProductRepository, stockRepo: StockRepository, categoryRepo: CategoryRepository, subcategoryRepo: SubcategoryRepository, cc: MessagesControllerComponents)(implicit ec: ExecutionContext) extends MessagesAbstractController(cc) {
 
+  val REDIRECT_URL = "/form/product/list"
+
   var stockList: Seq[Stock] = Seq[Stock]()
   var categoryList: Seq[Category] = Seq[Category]()
   var subcategoryList: Seq[Subcategory] = Seq[Subcategory]()
@@ -42,7 +44,7 @@ class ProductController @Inject()(productRepo: ProductRepository, stockRepo: Sto
       },
       product => {
         productRepo.create(product.stockId, product.categoryId, product.subcategoryId, product.name, product.imageUrl, product.description).map { _ =>
-          Redirect("/form/product/list")
+          Redirect(REDIRECT_URL)
         }
       }
     )
@@ -65,7 +67,7 @@ class ProductController @Inject()(productRepo: ProductRepository, stockRepo: Sto
       },
       product => {
         productRepo.update(product.id, Product(product.id, product.stockId, product.categoryId, product.subcategoryId, product.name, product.imageUrl, product.description)).map { _ =>
-          Redirect("/form/product/list")
+          Redirect(REDIRECT_URL)
         }
       }
     )
@@ -73,7 +75,7 @@ class ProductController @Inject()(productRepo: ProductRepository, stockRepo: Sto
 
   def deleteProduct(id: Long): Action[AnyContent] = Action {
     productRepo.delete(id)
-    Redirect("/form/product/list")
+    Redirect(REDIRECT_URL)
   }
 
   // utilities

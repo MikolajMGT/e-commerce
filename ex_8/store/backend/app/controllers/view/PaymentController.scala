@@ -14,6 +14,8 @@ import scala.util.{Failure, Success}
 @Singleton
 class PaymentController @Inject()(paymentRepo: PaymentRepository, userRepo: UserRepository, creditCardRepo: CreditCardRepository, cc: MessagesControllerComponents)(implicit ec: ExecutionContext) extends MessagesAbstractController(cc) {
 
+  val REDIRECT_URL = "/form/payment/list"
+
   var userList: Seq[User] = Seq[User]()
   var creditCardList: Seq[CreditCard] = Seq[CreditCard]()
 
@@ -40,7 +42,7 @@ class PaymentController @Inject()(paymentRepo: PaymentRepository, userRepo: User
       },
       payment => {
         paymentRepo.create(payment.userId, payment.creditCardId, payment.amount).map { _ =>
-          Redirect("/form/payment/list")
+          Redirect(REDIRECT_URL)
         }
       }
     )
@@ -63,7 +65,7 @@ class PaymentController @Inject()(paymentRepo: PaymentRepository, userRepo: User
       },
       payment => {
         paymentRepo.update(payment.id, Payment(payment.id, payment.userId, payment.creditCardId, payment.amount)).map { _ =>
-          Redirect("/form/payment/list")
+          Redirect(REDIRECT_URL)
         }
       }
     )
@@ -71,7 +73,7 @@ class PaymentController @Inject()(paymentRepo: PaymentRepository, userRepo: User
 
   def deletePayment(id: Long): Action[AnyContent] = Action {
     paymentRepo.delete(id)
-    Redirect("/form/payment/list")
+    Redirect(REDIRECT_URL)
   }
 
   // utilities

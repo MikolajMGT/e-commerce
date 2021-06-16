@@ -45,13 +45,12 @@ export class ProductStore implements IProductStore {
             const productList = await listProducts();
             console.log(productList);
             this.products = productList.data.map((product: ProductDb) => {
-                const newProduct: ProductProps = {
+                return {
                     id: product.id,
                     name: product.name,
                     price: stockList.data.filter((stock: StockDb) => stock.id === product.stockId)[0].totalPrice,
                     image: product.imageUrl
                 };
-                return newProduct;
             });
         }
         return this.products;

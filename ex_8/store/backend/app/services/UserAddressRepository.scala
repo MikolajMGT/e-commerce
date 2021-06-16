@@ -24,7 +24,7 @@ class UserAddressRepository @Inject()(dbConfigProvider: DatabaseConfigProvider, 
 
     def userId = column[Long]("user_id")
 
-    def userId_fk = foreignKey("user_fk", userId, user_)(_.id)
+    def userIdFk = foreignKey("user_fk", userId, user_)(_.id)
 
     def firstname: Rep[String] = column[String]("firstname")
 
@@ -38,11 +38,7 @@ class UserAddressRepository @Inject()(dbConfigProvider: DatabaseConfigProvider, 
 
     def country: Rep[String] = column[String]("country")
 
-    def createdAt: Rep[Timestamp] = column[Timestamp]("created_at", O.Default(currentWhenInserting))
-
-    def updatedAt: Rep[Timestamp] = column[Timestamp]("updated_at", O.Default(currentWhenInserting))
-
-    def * = (id, userId, firstname, lastname, address, zipcode, city, country, createdAt, updatedAt) <> ((UserAddress.apply _).tupled, UserAddress.unapply)
+    def * = (id, userId, firstname, lastname, address, zipcode, city, country) <> ((UserAddress.apply _).tupled, UserAddress.unapply)
   }
 
   import userRepository.UserTable
@@ -50,11 +46,11 @@ class UserAddressRepository @Inject()(dbConfigProvider: DatabaseConfigProvider, 
   val userAddress = TableQuery[UserAddressTable]
   val user_ = TableQuery[UserTable]
 
-  def create(userId: Long, firstname: String, lastname: String, address: String, zipcode: String, city: String, country: String, createdAt: Timestamp = Timestamp.from(Instant.now()), updatedAt: Timestamp = Timestamp.from(Instant.now())): Future[UserAddress] = db.run {
-    (userAddress.map(a => (a.userId, a.firstname, a.lastname, a.address, a.zipcode, a.city, a.country, a.createdAt, a.updatedAt))
+  def create(userId: Long, firstname: String, lastname: String, address: String, zipcode: String, city: String, country: String): Future[UserAddress] = db.run {
+    (userAddress.map(a => (a.userId, a.firstname, a.lastname, a.address, a.zipcode, a.city, a.country))
       returning userAddress.map(_.id)
-      into { case ((userId, firstname, lastname, address, zipcode, city, country, createdAt, updatedAt), id) => UserAddress(id, userId, firstname, lastname, address, zipcode, city, country, createdAt, updatedAt) }
-      ) += (userId, firstname, lastname, address, zipcode, city, country, createdAt, updatedAt)
+      into { case ((userId, firstname, lastname, address, zipcode, city, country), id) => UserAddress(id, userId, firstname, lastname, address, zipcode, city, country) }
+      ) += (userId, firstname, lastname, address, zipcode, city, country)
   }
 
   def getByIdOption(id: Long): Future[Option[UserAddress]] = db.run {
@@ -69,8 +65,8 @@ class UserAddressRepository @Inject()(dbConfigProvider: DatabaseConfigProvider, 
     userAddress.filter(_.userId === userId).result
   }
 
-  def update(id: Long, new_userAddress: UserAddress): Future[Int] = {
-    val userAddressToUpdate: UserAddress = new_userAddress.copy(id)
+  def update(id: Long, newUserAddress: UserAddress): Future[Int] = {
+    val userAddressToUpdate: UserAddress = newUserAddress.copy(id)
     db.run(userAddress.filter(_.id === id).update(userAddressToUpdate))
   }
 

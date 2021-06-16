@@ -24,11 +24,11 @@ class PaymentRepository @Inject()(dbConfigProvider: DatabaseConfigProvider, val 
 
     def userId = column[Long]("user_id")
 
-    def user_fk = foreignKey("user_fk", userId, user_)(_.id)
+    def userFk = foreignKey("user_fk", userId, user_)(_.id)
 
     def creditCardId = column[Long]("credit_card_id")
 
-    def creditCard_fk = foreignKey("credit_card_id_fk", creditCardId, creditCard_)(_.id)
+    def creditCardFk = foreignKey("credit_card_id_fk", creditCardId, creditCard_)(_.id)
 
     def amount: Rep[Int] = column[Int]("amount")
 
@@ -69,8 +69,8 @@ class PaymentRepository @Inject()(dbConfigProvider: DatabaseConfigProvider, val 
     payment.filter(_.creditCardId === creditCardId).result
   }
 
-  def update(id: Long, new_payment: Payment): Future[Int] = {
-    val paymentToUpdate: Payment = new_payment.copy(id)
+  def update(id: Long, newPayment: Payment): Future[Int] = {
+    val paymentToUpdate: Payment = newPayment.copy(id)
     db.run(payment.filter(_.id === id).update(paymentToUpdate))
   }
 

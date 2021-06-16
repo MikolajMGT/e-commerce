@@ -97,31 +97,17 @@ export class OrderStore implements IOrderStore {
         const stocks = await listStocks();
         const creditCards = await listUserCreditCards(userId);
         const userAddresses = await listUserAddresses(userId);
+
         this.orders = await Promise.all(orderList.map(async (order: OrderDb) => {
-            let voucher;
-            if (order.voucherId !== 0) {
-                voucher = await getVoucherById(order.voucherId);
-            } else {
-                voucher = undefined;
-            }
+            const voucher = resolveVoucher(order)
             const payment = await getPayment(order.paymentId);
             const products = await listProductsByOrderId(order.id);
-            const card = creditCards.data.filter((card: any) => payment.data.creditCardId === card.id);
-            const address = userAddresses.data.filter((address: any) => order.addressId === address.id);
-            const productsSummary = await Promise.all(products.data.map(async (product: ProductDb) => {
-                const quantity = orderProduct.data.filter((orderProduct: any) => orderProduct.orderId === order.id && orderProduct.productId === product.id);
-                const price = stocks.data.filter((stock: any) => product.stockId === stock.id);
-                const productDetails: ProductDetails = {
-                    name: product.name,
-                    imageUrl: product.imageUrl,
-                    quantity: quantity.length > 0 ? quantity[0].amount : -1,
-                    price: price.length > 0 ? price[0].totalPrice : -1
-                };
-                return productDetails;
-            }));
-            const newOrder: IOrder = {
+            const card = creditCards.data.filter((cardParam: any) => payment.data.creditCardId === cardParam.id);
+            const address = userAddresses.data.filter((addressParam: any) => order.addressId === addressParam.id);
+            const productsSummary = await prepareProductSummary(products, orderProduct, order, stocks)
+            return {
                 order: order,
-                voucher: voucher?.data,
+                voucher: voucher,
                 payment: {...payment.data, amount: payment.data.amount / 100},
                 products: productsSummary,
                 creditCard: card.length > 0 ? {
@@ -130,7 +116,6 @@ export class OrderStore implements IOrderStore {
                 } : undefined,
                 address: address.length > 0 ? address[0] : undefined
             };
-            return newOrder;
         }));
         return this.orders;
     };
@@ -143,4 +128,26 @@ export class OrderStore implements IOrderStore {
         this.orders = [];
         this.loaded = false;
     };
+}
+
+const resolveVoucher = async (order: OrderDb) => {
+    if (order.voucherId !== 0) {
+        const voucher = await getVoucherById(order.voucherId);
+        return voucher.data
+    } else {
+        return undefined;
+    }
+}
+
+const prepareProductSummary = async (products: any, orderProduct: any, order: any, stocks: any) => {
+    return Promise.all(products.data.map(async (product: ProductDb) => {
+        const quantity = orderProduct.data.filter((orderProductParam: any) => orderProductParam.orderId === order.id && orderProductParam.productId === product.id);
+        const price = stocks.data.filter((stock: any) => product.stockId === stock.id);
+        return {
+            name: product.name,
+            imageUrl: product.imageUrl,
+            quantity: quantity.length > 0 ? quantity[0].amount : -1,
+            price: price.length > 0 ? price[0].totalPrice : -1
+        };
+    }));
 }

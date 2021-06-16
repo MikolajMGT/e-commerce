@@ -13,6 +13,8 @@ import scala.util.{Failure, Success}
 @Singleton
 class CreditCardController @Inject()(creditCardRepo: CreditCardRepository, userRepo: UserRepository, cc: MessagesControllerComponents)(implicit ec: ExecutionContext) extends MessagesAbstractController(cc) {
 
+  val REDIRECT_URL = "/form/credit-card/list"
+
   var userList: Seq[User] = Seq[User]()
 
   // fill above lists
@@ -37,7 +39,7 @@ class CreditCardController @Inject()(creditCardRepo: CreditCardRepository, userR
       },
       creditCard => {
         creditCardRepo.create(creditCard.userId, creditCard.cardholderName, creditCard.number, creditCard.expDate, creditCard.cvcCode).map { _ =>
-          Redirect("/form/credit-card/list")
+          Redirect(REDIRECT_URL)
         }
       }
     )
@@ -60,7 +62,7 @@ class CreditCardController @Inject()(creditCardRepo: CreditCardRepository, userR
       },
       creditCard => {
         creditCardRepo.update(creditCard.id, CreditCard(creditCard.id, creditCard.userId, creditCard.cardholderName, creditCard.number, creditCard.expDate, creditCard.cvcCode)).map { _ =>
-          Redirect("/form/credit-card/list")
+          Redirect(REDIRECT_URL)
         }
       }
     )
@@ -68,7 +70,7 @@ class CreditCardController @Inject()(creditCardRepo: CreditCardRepository, userR
 
   def deleteCreditCard(id: Long): Action[AnyContent] = Action {
     creditCardRepo.delete(id)
-    Redirect("/form/credit-card/list")
+    Redirect(REDIRECT_URL)
   }
 
   // utilities

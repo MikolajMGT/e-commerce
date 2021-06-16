@@ -35,7 +35,7 @@ export class AddressStore implements IAddressStore {
             const userAddresses = await listUserAddresses(userId);
             this.loaded = true;
             this.addresses = userAddresses.data.map((address: AddressDb) => {
-                const newAddress: AddressDb = {
+                return {
                     id: address.id,
                     userId: address.userId,
                     firstname: address.firstname,
@@ -47,7 +47,6 @@ export class AddressStore implements IAddressStore {
                     createdAt: address.createdAt,
                     updatedAt: address.updatedAt
                 };
-                return newAddress;
             });
         }
         return this.addresses;

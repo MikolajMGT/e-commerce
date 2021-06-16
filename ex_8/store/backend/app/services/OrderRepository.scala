@@ -24,17 +24,17 @@ class OrderRepository @Inject()(dbConfigProvider: DatabaseConfigProvider, val us
 
     def userId = column[Long]("user_id")
 
-    def user_fk = foreignKey("user_fk", userId, user_)(_.id)
+    def userFk = foreignKey("user_fk", userId, user_)(_.id)
 
     def addressId = column[Long]("address_id")
 
     def paymentId = column[Long]("payment_id")
 
-    def payment_fk = foreignKey("payment_id_fk", paymentId, payment_)(_.id)
+    def paymentFk = foreignKey("payment_id_fk", paymentId, payment_)(_.id)
 
     def voucherId = column[Long]("voucher_id", O.Default(0))
 
-    def voucher_fk = foreignKey("voucher_id_fk", voucherId, voucher_)(_.id)
+    def voucherFk = foreignKey("voucher_id_fk", voucherId, voucher_)(_.id)
 
     def createdAt: Rep[Timestamp] = column[Timestamp]("created_at", O.Default(currentWhenInserting))
 
@@ -89,8 +89,8 @@ class OrderRepository @Inject()(dbConfigProvider: DatabaseConfigProvider, val us
     order.filter(_.voucherId === voucherId).result
   }
 
-  def update(id: Long, new_order: Order): Future[Int] = {
-    val orderToUpdate: Order = new_order.copy(id)
+  def update(id: Long, newOrder: Order): Future[Int] = {
+    val orderToUpdate: Order = newOrder.copy(id)
     db.run(order.filter(_.id === id).update(orderToUpdate))
   }
 

@@ -38,16 +38,8 @@ ol, ul {
     list-style: none;
 }
 
-hr {
-    display: none;
-    visibility: hidden;
-}
-
 :focus {
     outline: 0;
-}
-
-article {
 }
 
 article h1, article h2, article h3, article h4, article h5, article h6 {
@@ -110,7 +102,6 @@ article p img {
 }
 
 article p.lead {
-    font-size: 18px;
     font-size: 1.8rem;
     line-height: 1.5;
 }
@@ -375,6 +366,7 @@ h1 {
 h2 {
     font-weight: bold;
     font-size: 28px;
+    clear: both;
 }
 
 hr {
@@ -391,11 +383,10 @@ section {
 }
 
 body {
-    background: #f5f5f5;
     background: #fff;
     color: #555;
     font: 15px "Helvetica Nueue", sans-serif;
-    padding: 0px 0 0px;
+    padding: 0 0 0;
 }
 
 .wrapper {
@@ -548,7 +539,11 @@ header nav a.download:active {
 }
 
 #getLogo {
+    top: 85px;
+    left: 50%;
+    padding: 20px;
     text-align: center;
+    margin-left: -480px;
 }
 
 #getLogo h3 {
@@ -585,13 +580,6 @@ header nav a.download:active {
 #download .button {
     font-size: 16px;
     color: #80c846;
-}
-
-#getLogo {
-    top: 85px;
-    left: 50%;
-    padding: 20px;
-    margin-left: -480px;
 }
 
 #getLogo ul {
@@ -670,7 +658,7 @@ header nav a.download:active {
     background: -webkit-linear-gradient(top, #80c846 0%, #6dae38 100%);
     background: -o-linear-gradient(top, #80c846 0%, #6dae38 100%);
     background: -ms-linear-gradient(top, #80c846 0%, #6dae38 100%);
-    background: linear-gradient(top, #80c846 0%, #6dae38 100%);
+    background: linear-gradient(to top, #80c846 0%, #6dae38 100%);
     filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#80c846', endColorstr='#6dae38', GradientType=0);
     box-shadow: inset 0 -1px 1px #80c846;
     text-align: center;
@@ -706,7 +694,7 @@ header nav a.download:active {
     background: -webkit-linear-gradient(top, #80c846 0%, #6dae38 100%);
     background: -o-linear-gradient(top, #80c846 0%, #6dae38 100%);
     background: -ms-linear-gradient(top, #80c846 0%, #6dae38 100%);
-    background: linear-gradient(top, #80c846 0%, #6dae38 100%);
+    background: linear-gradient(to top, #80c846 0%, #6dae38 100%);
     filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#80c846', endColorstr='#6dae38', GradientType=0);
     box-shadow: inset 0 -1px 1px #80c846;
     text-align: center;
@@ -815,7 +803,6 @@ header nav a.download:active {
 
 footer {
     padding: 40px 0;
-    background: #363736;
     background: #eee;
     border-top: 1px solid #e5e5e5;
     color: #aaa;
@@ -840,7 +827,6 @@ footer:after {
 
 footer .links {
     width: 960px;
-    margin: 0 auto;
     box-sizing: border-box;
     -webkit-box-sizing: border-box;
     -moz-box-sizing: border-box;
@@ -879,7 +865,6 @@ footer .links a:hover {
 
 footer .licence {
     width: 960px;
-    margin: 0 auto;
     box-sizing: border-box;
     -webkit-box-sizing: border-box;
     -moz-box-sizing: border-box;
@@ -982,10 +967,6 @@ div.list {
     float: left;
     width: 33.3333%;
     margin-bottom: 30px;
-}
-
-h2 {
-    clear: both;
 }
 
 span.by {

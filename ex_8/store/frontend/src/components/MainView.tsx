@@ -30,24 +30,14 @@ export const Routes: FC<{ store?: RootStore }> = inject('store')(observer(({stor
             const userId = Cookies.get('userId');
             if (userId) {
                 (async () => {
-                    try {
-                        userStore?.fetchUser(parseInt(userId));
-                    } catch (e) {
-                        console.log(e);
-                    }
+                    tryFetchUser(userId)
                 })();
             } else {
                 const url = new URL(window.location.href);
                 const userIdParam = url.searchParams.get("user-id");
                 if (userIdParam) {
                     (async () => {
-                        try {
-                            console.log('elo', userIdParam)
-                            userStore?.fetchUser(parseInt(userIdParam));
-                            Cookies.set('userId', userIdParam)
-                        } catch (e) {
-                            console.log(e);
-                        }
+                        tryFetchUser(userIdParam)
                     })();
                 }
             }
@@ -55,6 +45,15 @@ export const Routes: FC<{ store?: RootStore }> = inject('store')(observer(({stor
             history.push('/');
         }
     }, []);
+
+    const tryFetchUser = (userId: string) => {
+        try {
+            userStore?.fetchUser(parseInt(userId));
+            Cookies.set('userId', userId)
+        } catch (e) {
+            console.log(e);
+        }
+    }
 
     return (
         <Switch>

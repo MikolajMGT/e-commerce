@@ -25,11 +25,11 @@ class OrderProductRepository @Inject()(dbConfigProvider: DatabaseConfigProvider,
 
     def orderId = column[Long]("order_id")
 
-    def order_fk = foreignKey("order_fk", orderId, order_)(_.id)
+    def orderFk = foreignKey("order_fk", orderId, order_)(_.id)
 
     def productId = column[Long]("product_id")
 
-    def product_fk = foreignKey("product_id_fk", productId, product_)(_.id)
+    def productFk = foreignKey("product_id_fk", productId, product_)(_.id)
 
     def amount: Rep[Int] = column[Int]("amount")
 
@@ -82,8 +82,8 @@ class OrderProductRepository @Inject()(dbConfigProvider: DatabaseConfigProvider,
     productRepository.listByIds(ids)
   }
 
-  def update(id: Long, new_orderProduct: OrderProduct): Future[Int] = {
-    val orderProductToUpdate: OrderProduct = new_orderProduct.copy(id)
+  def update(id: Long, newOrderProduct: OrderProduct): Future[Int] = {
+    val orderProductToUpdate: OrderProduct = newOrderProduct.copy(id)
     db.run(orderProduct.filter(_.id === id).update(orderProductToUpdate))
   }
 

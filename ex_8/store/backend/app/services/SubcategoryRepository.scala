@@ -24,7 +24,7 @@ class SubcategoryRepository @Inject()(dbConfigProvider: DatabaseConfigProvider, 
 
     def categoryId = column[Long]("category_id")
 
-    def category_fk = foreignKey("category_fk", categoryId, category_)(_.id)
+    def categoryFk = foreignKey("category_fk", categoryId, category_)(_.id)
 
     def name = column[String]("name")
 
@@ -63,8 +63,8 @@ class SubcategoryRepository @Inject()(dbConfigProvider: DatabaseConfigProvider, 
     subcategory.filter(_.categoryId === categoryId).result
   }
 
-  def update(id: Long, new_subcategory: Subcategory): Future[Int] = {
-    val subcategoryToUpdate: Subcategory = new_subcategory.copy(id)
+  def update(id: Long, newSubcategory: Subcategory): Future[Int] = {
+    val subcategoryToUpdate: Subcategory = newSubcategory.copy(id)
     db.run(subcategory.filter(_.id === id).update(subcategoryToUpdate))
   }
 

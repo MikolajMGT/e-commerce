@@ -12,6 +12,8 @@ import scala.concurrent.{ExecutionContext, Future}
 @Singleton
 class StockController @Inject()(stockRepo: StockRepository, cc: MessagesControllerComponents)(implicit ec: ExecutionContext) extends MessagesAbstractController(cc) {
 
+  val REDIRECT_URL = "/form/stock/list"
+
   def listStocks: Action[AnyContent] = Action.async { implicit request =>
     stockRepo.list().map(stocks => Ok(views.html.stock_list(stocks)))
   }
@@ -30,7 +32,7 @@ class StockController @Inject()(stockRepo: StockRepository, cc: MessagesControll
       },
       stock => {
         stockRepo.create(stock.unitPrice, stock.totalPrice, stock.totalStock).map { _ =>
-          Redirect("/form/stock/list")
+          Redirect(REDIRECT_URL)
         }
       }
     )
@@ -53,7 +55,7 @@ class StockController @Inject()(stockRepo: StockRepository, cc: MessagesControll
       },
       stock => {
         stockRepo.update(stock.id, Stock(stock.id, stock.unitPrice, stock.totalPrice, stock.totalStock)).map { _ =>
-          Redirect("/form/stock/list")
+          Redirect(REDIRECT_URL)
         }
       }
     )
@@ -61,7 +63,7 @@ class StockController @Inject()(stockRepo: StockRepository, cc: MessagesControll
 
   def deleteStock(id: Long): Action[AnyContent] = Action {
     stockRepo.delete(id)
-    Redirect("/form/stock/list")
+    Redirect(REDIRECT_URL)
   }
 
   // utilities
