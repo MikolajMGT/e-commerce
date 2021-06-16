@@ -27,15 +27,29 @@ export const Routes: FC<{ store?: RootStore }> = inject('store')(observer(({stor
     useEffect(() => {
         if (!userStore?.user) {
 
-            const userId = Cookies.get('userId')
+            const userId = Cookies.get('userId');
             if (userId) {
                 (async () => {
                     try {
-                        userStore?.fetchUser(parseInt(userId))
+                        userStore?.fetchUser(parseInt(userId));
                     } catch (e) {
                         console.log(e);
                     }
                 })();
+            } else {
+                const url = new URL(window.location.href);
+                const userIdParam = url.searchParams.get("user-id");
+                if (userIdParam) {
+                    (async () => {
+                        try {
+                            console.log('elo', userIdParam)
+                            userStore?.fetchUser(parseInt(userIdParam));
+                            Cookies.set('userId', userIdParam)
+                        } catch (e) {
+                            console.log(e);
+                        }
+                    })();
+                }
             }
 
             history.push('/');
