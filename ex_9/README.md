@@ -8,7 +8,7 @@ Sonar analysis:
 [![Vulnerabilities](https://sonarcloud.io/api/project_badges/measure?project=MikolajMGT_e-commerce&metric=vulnerabilities)](https://sonarcloud.io/dashboard?id=MikolajMGT_e-commerce)
 [![Technical Debt](https://sonarcloud.io/api/project_badges/measure?project=MikolajMGT_e-commerce&metric=sqale_index)](https://sonarcloud.io/dashboard?id=MikolajMGT_e-commerce)
 
-Directory ex_8 has been scanned by Sonar as it contains full newest version of project.
+Directory ex_8 has been scanned by Sonar as it contains full newest version of project. All issues have been resolved.
 
 First scan:
 
@@ -17,3 +17,7 @@ First scan:
 Issues
 
 ![alt text](./images/2.png "issues")
+
+After fix:
+
+![alt text](./images/3.png "after fix")
