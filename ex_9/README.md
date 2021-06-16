@@ -15,5 +15,4 @@ First scan:
 ![alt text](./images/1.png "first scan")
 
 Issues
-
 ![alt text](./images/2.png "issues")
