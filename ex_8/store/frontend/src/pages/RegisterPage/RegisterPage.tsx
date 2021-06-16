@@ -1,7 +1,7 @@
 import React, {FC} from 'react';
 import {v4 as uuidv4} from 'uuid';
 import {Page} from '../../components/Page/Page';
-import {Register} from '../../components/Register/Register';
+import {Register} from '../../components/Auth/Register/Register';
 import {RegisterPageStyled} from './RegisterPageStyled';
 
 export const RegisterPage: FC = () => {

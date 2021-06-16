@@ -1,12 +1,13 @@
 import React, {FC} from 'react';
-import {Button, DialogContentText, Input, Typography} from '@material-ui/core';
+import {Button, Typography} from '@material-ui/core';
 import {useHistory} from 'react-router';
 import {Field, Form, Formik, FormikHelpers} from 'formik';
 import {LoginStyled} from './LoginStyled';
-import {RootStore} from '../../stores/RootStore';
+import {RootStore} from '../../../stores/RootStore';
 import {inject, observer} from 'mobx-react';
 import {GithubLoginButton, GoogleLoginButton} from 'react-social-login-buttons';
-import {GITHUB_LOGIN_URL, GOOGLE_LOGIN_URL} from '../../services/user';
+import {GITHUB_LOGIN_URL, GOOGLE_LOGIN_URL} from '../../../services/user';
+import {EmailPassword} from '../EmailPassword';
 
 export interface LoginProps {
     //
@@ -49,18 +50,7 @@ export const Login: FC<{ store?: RootStore }> = inject('store')(observer(({store
                     {({errors, touched, values, isSubmitting}) => (
                         <Form className="registerForm">
 
-                            <DialogContentText style={{color: '#FCFDFE'}}>Email:</DialogContentText>
-                            <Field as={Input} style={{backgroundColor: '#52585D', color: '#FCFDFE', width: '100%'}}
-                                   name="email"
-                                   required
-                                   error={errors.email && touched.email ? errors.email : null}/>
-
-                            <DialogContentText style={{color: '#FCFDFE'}}>Password:</DialogContentText>
-                            <Field as={Input} style={{backgroundColor: '#52585D', color: '#FCFDFE', width: '100%'}}
-                                   name="password"
-                                   type="password"
-                                   required
-                                   error={errors.password && touched.password ? errors.password : null}/>
+                            <EmailPassword errors={errors} touched={touched}/>
                             <div className="row">
                                 <Field as={Button} type="submit" disabled={isSubmitting}
                                        color="primary">Sign in</Field>

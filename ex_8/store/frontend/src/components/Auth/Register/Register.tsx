@@ -3,8 +3,9 @@ import {Button, DialogContentText, Input} from '@material-ui/core';
 import {useHistory} from 'react-router';
 import {Field, Form, Formik, FormikHelpers} from 'formik';
 import {RegisterStyled} from './RegisterStyled';
-import {RootStore} from '../../stores/RootStore';
+import {RootStore} from '../../../stores/RootStore';
 import {inject, observer} from 'mobx-react';
+import {EmailPassword} from '../EmailPassword';
 
 export const Register: FC<{ store?: RootStore }> = inject('store')(observer(({store}) => {
     const history = useHistory();
@@ -42,20 +43,7 @@ export const Register: FC<{ store?: RootStore }> = inject('store')(observer(({st
                         onSubmit={(values, actions) => onSubmit(values, actions)}>
                     {({errors, touched, values, isSubmitting}) => (
                         <Form className="registerForm">
-
-                            <DialogContentText style={{color: '#FCFDFE'}}>Email:</DialogContentText>
-                            <Field as={Input} style={{backgroundColor: '#52585D', color: '#FCFDFE', width: '100%'}}
-                                   name="email"
-                                   required
-                                   error={errors.email && touched.email ? errors.email : null}/>
-
-                            <DialogContentText style={{color: '#FCFDFE'}}>Password:</DialogContentText>
-                            <Field as={Input} style={{backgroundColor: '#52585D', color: '#FCFDFE', width: '100%'}}
-                                   name="password"
-                                   type="password"
-                                   required
-                                   error={errors.password && touched.password ? errors.password : null}/>
-
+                            <EmailPassword errors={errors} touched={touched}/>
                             <DialogContentText style={{color: '#FCFDFE'}}>Repeat Password:</DialogContentText>
                             <Field as={Input} style={{backgroundColor: '#52585D', color: '#FCFDFE', width: '100%'}}
                                    name="repeatPassword"
