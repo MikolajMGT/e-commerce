@@ -45,8 +45,6 @@ CREATE TABLE "user_address"
     "zipcode"    VARCHAR   NOT NULL,
     "city"       VARCHAR   NOT NULL,
     "country"    VARCHAR   NOT NULL,
-    "created_at" TIMESTAMP NOT NULL,
-    "updated_at" TIMESTAMP NOT NULL,
     FOREIGN KEY (user_id) REFERENCES user_ (id)
 );
 
@@ -138,7 +136,6 @@ CREATE TABLE "product"
     "image_url"      VARCHAR   NOT NULL,
     "description"    VARCHAR   NOT NULL,
     "created_at"     TIMESTAMP NOT NULL,
-    "updated_at"     TIMESTAMP NOT NULL,
     FOREIGN KEY (stock_id) REFERENCES stock (id),
     FOREIGN KEY (category_id) REFERENCES category (id),
     FOREIGN KEY (subcategory_id) REFERENCES subcategory (id)
