@@ -99,7 +99,7 @@ export class OrderStore implements IOrderStore {
         const userAddresses = await listUserAddresses(userId);
 
         this.orders = await Promise.all(orderList.map(async (order: OrderDb) => {
-            const voucher = resolveVoucher(order)
+            const voucher = await resolveVoucher(order)
             const payment = await getPayment(order.paymentId);
             const products = await listProductsByOrderId(order.id);
             const card = creditCards.data.filter((cardParam: any) => payment.data.creditCardId === cardParam.id);
